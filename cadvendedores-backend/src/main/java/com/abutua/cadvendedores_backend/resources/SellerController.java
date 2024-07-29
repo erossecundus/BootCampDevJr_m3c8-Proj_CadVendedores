@@ -1,17 +1,15 @@
 package com.abutua.cadvendedores_backend.resources;
 
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.abutua.cadvendedores_backend.models.Seller;
-import com.abutua.cadvendedores_backend.repositories.SellerRepository;
+import com.abutua.cadvendedores_backend.services.SellerService;
 
 import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,12 +19,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
 
-
 @RestController
 public class SellerController {
 
   @Autowired
-  private SellerRepository sellerRepository;
+  private SellerService sellerService;
 
   // private List<Seller> sellers = new ArrayList<>();
     // new Seller(1L, "Joao", 1500.50, 10.0, 1),
@@ -35,45 +32,35 @@ public class SellerController {
 
   @GetMapping("sellers")
   public List<Seller> getSellers() {
-    return sellerRepository.findAll();
+    return sellerService.getAll();
   }
 
   @GetMapping("sellers/{id}")
-  public ResponseEntity<Seller> getSellerById(@PathVariable Long id) {
-    Seller seller = sellerRepository.findById(id)
-                                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Seller not Found"));
+  public ResponseEntity<Seller> getSellerById(@PathVariable long id) {
+    Seller seller = sellerService.getById(id);
     return ResponseEntity.ok(seller);
   }
 
   @PostMapping("sellers")
   public ResponseEntity<Seller> addSeller(@RequestBody Seller seller) {
-    seller = sellerRepository.save(seller);
+    seller = sellerService.save(seller);
     URI location = ServletUriComponentsBuilder
                     .fromCurrentRequest()
                     .path("/{id}")
                     .buildAndExpand(seller.getId())
                     .toUri();
-
     return ResponseEntity.created(location).body(seller);
   }
 
   @DeleteMapping("sellers/{id}")
-  public ResponseEntity<Void> removeSeller(@PathVariable Long id) {
-    Seller seller = sellerRepository.findById(id)
-                                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Seller not Found"));
-    sellerRepository.delete(seller);
+  public ResponseEntity<Void> removeSeller(@PathVariable long id) {
+    sellerService.deleteById(id);
     return ResponseEntity.noContent().build();
   }
 
   @PutMapping("sellers/{id}")
-  public ResponseEntity<Seller> updateSeller(@PathVariable Long id, @RequestBody Seller sellerUpdate) {
-    Seller seller = sellerRepository.findById(id)
-                                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Seller not Found"));
-    seller.setName(sellerUpdate.getName());
-    seller.setSalary(sellerUpdate.getSalary());
-    seller.setBonus(sellerUpdate.getBonus());
-    seller.setGender(sellerUpdate.getGender());
-    sellerRepository.save(seller);
+  public ResponseEntity<Seller> updateSeller(@PathVariable long id, @RequestBody Seller sellerUpdate) {
+    sellerService.updateById(id, sellerUpdate);
     return ResponseEntity.ok().build();
   }
 }

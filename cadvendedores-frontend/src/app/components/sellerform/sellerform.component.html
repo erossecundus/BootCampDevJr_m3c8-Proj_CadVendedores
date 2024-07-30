@@ -18,17 +18,17 @@
           <div class="col-sm-10">
             <div class="form-check">
               <input type="radio" class="form-check-input" name="genderRadio" id="genderMasc"
-                [(ngModel)]="seller.gender" value="1" required>
+                [(ngModel)]="seller.gender" value="1" [checked]="seller.gender == 1" required>
               <label class="form-check-label" for="genderMasc">Masculino</label>
             </div>
             <div class="form-check">
               <input type="radio" class="form-check-input" name="genderRadio" id="genderFem"
-                [(ngModel)]="seller.gender" value="2" required>
+                [(ngModel)]="seller.gender" value="2" [checked]="seller.gender == 2" required>
               <label class="form-check-label" for="genderFem">Feminino</label>
             </div>
             <div class="form-check">
               <input type="radio" class="form-check-input" name="genderRadio" id="genderIndef"
-                [(ngModel)]="seller.gender" value="3" required>
+                [(ngModel)]="seller.gender" value="3" [checked]="seller.gender == 3" required>
               <label class="form-check-label" for="genderIndef">Não Informado</label>
             </div>
           </div>

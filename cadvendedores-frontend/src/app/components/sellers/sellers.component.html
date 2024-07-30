@@ -1,5 +1,5 @@
 <div class="container">
-  <app-sellerform></app-sellerform>
+  <app-sellerform [seller]="seller" (saveEmitter)="saveBook()"></app-sellerform>
 
   <hr>
 
@@ -22,8 +22,8 @@
             <td>{{s.id}}</td>
             <td>{{s.name}}</td>
             <td>{{s.salary | currency}}</td>
-            <td class="d-none d-md-table-cell">{{s.bonus | percent: '1.1-2'}}</td>
-            <td class="d-none d-md-table-cell">{{s.gender}}</td>
+            <td class="d-none d-md-table-cell">{{s.bonus | percent: '1.0-2'}}</td>
+            <td class="d-none d-md-table-cell">{{genders[s.gender-1]}}</td>
             
           </tr>
         </tbody>

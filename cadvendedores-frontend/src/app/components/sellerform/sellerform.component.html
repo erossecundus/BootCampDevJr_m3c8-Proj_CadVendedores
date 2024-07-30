@@ -3,50 +3,56 @@
 
   <div class="row">
     <div class="col-md-8 offset-md-2">
-      <form #formProduct="ngForm" id="formSeller">
+      <form #formSeller="ngForm" id="formSeller">
 
         <div class="row mb-3 mt-3">
           <label for="inputName" class="col-sm-2 col-form-label">Nome:</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="inputName" name="name" [(ngModel)]="seller.name" required>
+            <input type="text" class="form-control" id="inputName" name="name"
+              [(ngModel)]="seller.name" required>
           </div>
         </div>
 
-        <div class="row mb-3 mt-3">
+        <div class="row mb-3">
           <label class="col-sm-2 col-form-label">Gênero:</label>
           <div class="col-sm-10">
             <div class="form-check">
-              <input type="radio" class="form-check-input" name="gridRadios" id="genderMasc" value="1">
+              <input type="radio" class="form-check-input" name="genderRadio" id="genderMasc"
+                [(ngModel)]="seller.gender" value="1" required>
               <label class="form-check-label" for="genderMasc">Masculino</label>
             </div>
             <div class="form-check">
-              <input type="radio" class="form-check-input" name="gridRadios" id="genderFem" value="2">
+              <input type="radio" class="form-check-input" name="genderRadio" id="genderFem"
+                [(ngModel)]="seller.gender" value="2" required>
               <label class="form-check-label" for="genderFem">Feminino</label>
             </div>
             <div class="form-check">
-              <input type="radio" class="form-check-input" name="gridRadios" id="genderIndef" value="3" checked>
+              <input type="radio" class="form-check-input" name="genderRadio" id="genderIndef"
+                [(ngModel)]="seller.gender" value="3" required>
               <label class="form-check-label" for="genderIndef">Não Informado</label>
             </div>
           </div>
         </div>
 
         <div class="row mb-3 mt-3">
-
           <label for="inputSalary" class="col-sm-2 col-form-label">Salário:</label>
           <div class="col-sm-5">
-            <input type="text" class="form-control" id="inputSalary" name="salary" [(ngModel)]="seller.salary" required>
+            <input type="text" class="form-control" id="inputSalary" name="salary"
+              [(ngModel)]="seller.salary" required>
           </div>
 
           <label for="inputBonus" class="col-sm-2 col-form-label">Bônus:</label>
           <div class="col-sm-3">
-            <input type="text" class="form-control" id="inputBonus" name="bonus" [(ngModel)]="seller.bonus" required>
+            <input type="text" class="form-control" id="inputBonus" name="bonus"
+              [(ngModel)]="seller.bonus" placeholder="%" required>
           </div>
-
-
-
         </div>
 
-
+        <div class="row mb-3 mt-3">
+          <div class="col-sm-4">
+            <button type="submit" class="btn btn-primary" [disabled]="formSeller.invalid" (click)="save()">Cadastrar</button>
+          </div>
+        </div>
 
 
 

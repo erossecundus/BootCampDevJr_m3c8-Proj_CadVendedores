@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Seller } from '../../interfaces/Seller';
 
 @Component({
@@ -9,5 +9,15 @@ import { Seller } from '../../interfaces/Seller';
 export class SellerformComponent {
   title = 'Cadastro de Vendedor';
 
+  @Input()
   seller: Seller = {} as Seller;
+
+  @Output()
+  saveEmitter = new EventEmitter;
+
+
+  save() {
+    this.saveEmitter.emit()
+  }
+
 }

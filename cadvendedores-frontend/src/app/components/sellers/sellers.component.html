@@ -1,1 +1,34 @@
-<p>sellers works!</p>
+<div class="container">
+  <app-sellerform></app-sellerform>
+
+  <hr>
+
+  <div class="display-6">{{title}}</div>
+  <div class="row">
+    <div class="col-md-10 offset-md-1">
+      <table class="table" id="productsTable">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Salário</th>
+            <th scope="col" class="d-none d-md-table-cell">Bônus</th>
+            <th scope="col" class="d-none d-md-table-cell">Gênero</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let s of sellers">
+            <td>{{s.id}}</td>
+            <td>{{s.name}}</td>
+            <td>{{s.salary | currency}}</td>
+            <td class="d-none d-md-table-cell">{{s.bonus | percent: '1.1-2'}}</td>
+            <td class="d-none d-md-table-cell">{{s.gender}}</td>
+            
+          </tr>
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+</div>

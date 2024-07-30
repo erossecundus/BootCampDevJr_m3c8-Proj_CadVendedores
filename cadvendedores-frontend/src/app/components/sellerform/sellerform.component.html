@@ -1,1 +1,57 @@
-<p>sellerform works!</p>
+<div *ngIf="seller" class="mt-3">
+  <div class="display-6">{{title}}</div>
+
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <form #formProduct="ngForm" id="formSeller">
+
+        <div class="row mb-3 mt-3">
+          <label for="inputName" class="col-sm-2 col-form-label">Nome:</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="inputName" name="name" [(ngModel)]="seller.name" required>
+          </div>
+        </div>
+
+        <div class="row mb-3 mt-3">
+          <label class="col-sm-2 col-form-label">Gênero:</label>
+          <div class="col-sm-10">
+            <div class="form-check">
+              <input type="radio" class="form-check-input" name="gridRadios" id="genderMasc" value="1">
+              <label class="form-check-label" for="genderMasc">Masculino</label>
+            </div>
+            <div class="form-check">
+              <input type="radio" class="form-check-input" name="gridRadios" id="genderFem" value="2">
+              <label class="form-check-label" for="genderFem">Feminino</label>
+            </div>
+            <div class="form-check">
+              <input type="radio" class="form-check-input" name="gridRadios" id="genderIndef" value="3" checked>
+              <label class="form-check-label" for="genderIndef">Não Informado</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3 mt-3">
+
+          <label for="inputSalary" class="col-sm-2 col-form-label">Salário:</label>
+          <div class="col-sm-5">
+            <input type="text" class="form-control" id="inputSalary" name="salary" [(ngModel)]="seller.salary" required>
+          </div>
+
+          <label for="inputBonus" class="col-sm-2 col-form-label">Bônus:</label>
+          <div class="col-sm-3">
+            <input type="text" class="form-control" id="inputBonus" name="bonus" [(ngModel)]="seller.bonus" required>
+          </div>
+
+
+
+        </div>
+
+
+
+
+
+      </form>
+    </div>
+  </div>
+
+</div>

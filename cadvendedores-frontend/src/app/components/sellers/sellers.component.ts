@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Seller } from '../../interfaces/Seller';
 import { SafeCall } from '@angular/compiler';
 import { SellersService } from '../../services/sellers.service';
+import { preventOverflow } from '@popperjs/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-sellers',
@@ -15,11 +17,13 @@ export class SellersComponent {
   isEdit: boolean = false;
 
   seller: Seller = {} as Seller;
+  deleteSeller: Seller = {} as Seller;
 
   genders: string[] = [];
   sellers: Seller[] = [];
 
-  constructor(private sellerService: SellersService) { }
+  constructor(private sellerService: SellersService,
+    private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.loadGenders();
@@ -36,13 +40,12 @@ export class SellersComponent {
   }
 
   saveSeller(save: Boolean) {
-
-    if(save) {
-      if(this.isEdit) {
+    if (save) {
+      if (this.isEdit) {
         this.sellerService.update(this.seller);
         this.isEdit = false;
       }
-      else {        
+      else {
         this.sellerService.save(this.seller).subscribe({
           next: data => {
             this.sellers.push(data);
@@ -60,10 +63,18 @@ export class SellersComponent {
     this.isEdit = true;
   }
 
-  removeSeller(selectedSeller: Seller) {
-    this.sellerService.delete(selectedSeller).subscribe({
-      next: () => this.sellers = this.sellers.filter(s => s.id !== selectedSeller.id)
-    }); 
+  removeSeller(modal: any, selectedSeller: Seller) {
+    this.deleteSeller = selectedSeller;
+    this.modalService.open(modal).result.then(
+      (confirm) => {
+        if (confirm) {
+          this.sellerService.delete(selectedSeller).subscribe({
+            next: () => this.sellers = this.sellers.filter(s => s.id !== selectedSeller.id)
+          }); 
+        }
+      }
+    );
+
   }
 
   create() {

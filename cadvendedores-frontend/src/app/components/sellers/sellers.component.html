@@ -39,7 +39,7 @@
                   <button class="btn pe-1" (click)="editSeller(s)">
                     <i class="bi bi-pencil-square"></i>
                   </button>
-                  <button class="btn pe-1" (click)="removeSeller(s)">
+                  <button class="btn pe-1" (click)="removeSeller(confirmModal, s)">
                     <i class="bi bi-trash"></i>
                   </button>
                 </td>
@@ -51,5 +51,20 @@
         </div>
       </div>    
   </div>
+
+  <ng-template #confirmModal let-modal>
+    <div class="modal-header">
+      <h3 class="modal-title">Confirmar exclusão</h3>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.close()"></button>
+    </div>
+    <div class="modal-body">
+      <p>Deseja <span class="fst-italic">realmente</span> excluir o cadastro <span  class="fw-bold">#{{deleteSeller.id}}</span>?</p>
+      <p class="text-center fw-semibold">{{deleteSeller.name}}</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secundary" data-bs-dismiss="modal" (click)="modal.close()">Cancelar</button>
+      <button type="button" class="btn btn-danger" (click)="modal.close(true)">Confirmar</button>
+    </div>
+  </ng-template>
   
 </div>

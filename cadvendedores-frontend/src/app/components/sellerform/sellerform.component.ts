@@ -12,11 +12,15 @@ export class SellerformComponent {
   @Input()
   seller: Seller = {} as Seller;
 
+  @Input()
+  genders: string[] = [];
+
   @Output()
   saveEmitter = new EventEmitter;
 
 
   save() {
+    console.log(this.seller);
     this.saveEmitter.emit()
   }
 

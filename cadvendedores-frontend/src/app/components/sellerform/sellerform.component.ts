@@ -10,7 +10,7 @@ export class SellerformComponent {
   title = 'Cadastro de Vendedor';
 
   @Input()
-  seller: Seller = {} as Seller;
+  seller?: Seller;
 
   @Input()
   genders: string[] = [];
@@ -20,7 +20,6 @@ export class SellerformComponent {
 
 
   save() {
-    console.log(this.seller);
     this.saveEmitter.emit()
   }
 

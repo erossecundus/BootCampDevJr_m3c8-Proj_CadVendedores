@@ -11,10 +11,13 @@ import { SellersService } from '../../services/sellers.service';
 export class SellersComponent {
   title = 'Vendedores Cadastrados';
 
+  showForm: boolean = false;
+  isEdit: boolean = false;
+
   seller: Seller = {} as Seller;
 
   genders: string[] = [];
-  sellers : Seller[] = [];
+  sellers: Seller[] = [];
 
   constructor(private sellerService: SellersService) { }
 
@@ -28,26 +31,43 @@ export class SellersComponent {
   }
   loadSellers() {
     this.sellerService.getSellers().subscribe({
-      next: data => {this.sellers = data}
+      next: data => { this.sellers = data }
     });
   }
 
+  saveSeller(save: Boolean) {
 
-  saveSeller() {
-    this.sellerService.save(this.seller).subscribe({
-      next: data => {
-        this.sellers.push(data);
-        this.seller = {} as Seller;
+    if(save) {
+      if(this.isEdit) {
+        this.sellerService.update(this.seller);
+        this.isEdit = false;
       }
-    });
+      else {        
+        this.sellerService.save(this.seller).subscribe({
+          next: data => {
+            this.sellers.push(data);
+          }
+        });
+      }
+    }
+    this.seller = {} as Seller;
+    this.showForm = false;
   }
 
-  updateSeller(selectedSeller: Seller) {
+  editSeller(selectedSeller: Seller) {
     this.seller = selectedSeller;
+    this.showForm = true;
+    this.isEdit = true;
   }
 
   removeSeller(selectedSeller: Seller) {
-    this.sellers = this.sellers.filter(s => s.id !== selectedSeller.id);
+    this.sellerService.delete(selectedSeller).subscribe({
+      next: () => this.sellers = this.sellers.filter(s => s.id !== selectedSeller.id)
+    }); 
+  }
+
+  create() {
+    this.showForm = true;
   }
 
 

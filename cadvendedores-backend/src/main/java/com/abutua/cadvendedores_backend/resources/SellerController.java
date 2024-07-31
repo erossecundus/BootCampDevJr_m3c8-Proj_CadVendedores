@@ -27,11 +27,6 @@ public class SellerController {
   @Autowired
   private SellerService sellerService;
 
-  // private List<Seller> sellers = new ArrayList<>();
-    // new Seller(1L, "Joao", 1500.50, 10.0, 1),
-    // new Seller(2L, "Maria", 1800.50, 20.0, 2),
-    // new Seller(3L, "Darcy", 2000.50, 25.0, 3)
-
   @GetMapping("sellers")
   public List<Seller> getSellers() {
     return sellerService.getAll();

@@ -1,39 +1,55 @@
 <div class="container">
-  <app-sellerform [seller]="seller" [genders]="genders" (saveEmitter)="saveSeller()"></app-sellerform>
+  <app-sellerform *ngIf="showForm"
+    [seller]="seller"
+    [genders]="genders"
+    (saveEmitter)="saveSeller($event)"></app-sellerform>
 
-  <hr>
-
-  <div class="display-6">{{title}}</div>
-  <div class="row">
-    <div class="col-md-10 offset-md-1 mt-3">
-      <table class="table" id="productsTable">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Nome</th>
-            <th scope="col">Salário</th>
-            <th scope="col" class="d-none d-md-table-cell">Bônus</th>
-            <th scope="col" class="d-none d-md-table-cell">Gênero</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr *ngFor="let s of sellers">
-            <td>{{s.id}}</td>
-            <td>{{s.name}}</td>
-            <td>{{s.salary | currency}}</td>
-            <td class="d-none d-md-table-cell">{{s.bonus | number: '1.0-2'}}%</td>
-            <td class="d-none d-md-table-cell">{{genders[s.gender-1]}}</td>
-            <td class="text-end">
-              <button class="btn btn-success me-2" (click)="updateSeller(s)">Alterar</button>
-              <button class="btn btn-danger" (click)="removeSeller(s)">Remover</button>
-            </td>
-            
-          </tr>
-        </tbody>
-
-      </table>
+  <div *ngIf="!showForm">
+    <div class="row mt-3">
+      <div class="col-md-10 offset-md-1">
+        <button type="submit" class="btn btn-primary" (click)="create()">Novo</button>
+      </div>
     </div>
+
+    <hr>
+
+      <div class="display-6">{{title}}</div>
+      <div class="row">
+        <div class="col-md-10 offset-md-1 mt-3">
+          <table class="table align-middle" id="productsTable">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Salário</th>
+                <th scope="col" class="d-none d-md-table-cell">Bônus</th>
+                <th scope="col" class="d-none d-lg-table-cell">Gênero</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let s of sellers">
+                <td>{{s.id}}</td>
+                <td>{{s.name}}</td>
+                <td>{{s.salary | currency}}</td>
+                <td class="d-none d-md-table-cell">{{s.bonus | number: '1.0-2'}}%</td>
+                <td class="d-none d-lg-table-cell">{{genders[s.gender-1]}}</td>
+                <td class="text-end">
+                  <button class="btn pe-1" (click)="editSeller(s)">
+                    <i class="bi bi-pencil-square"></i>
+                  </button>
+                  <button class="btn pe-1" (click)="removeSeller(s)">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </td>
+                
+              </tr>
+            </tbody>
+
+          </table>
+        </div>
+      </div>    
   </div>
+  
 </div>

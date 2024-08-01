@@ -40,7 +40,6 @@ export class SellersComponent {
   }
 
   saveSeller(save: Boolean) {
-    console.log(save, this.isEdit);
     if (save) {
       if (this.isEdit) {
         this.sellerService.update(this.seller).subscribe();
@@ -81,6 +80,4 @@ export class SellersComponent {
   create() {
     this.showForm = true;
   }
-
-
 }

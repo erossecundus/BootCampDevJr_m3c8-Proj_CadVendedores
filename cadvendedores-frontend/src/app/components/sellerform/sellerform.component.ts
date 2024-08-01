@@ -30,6 +30,7 @@ export class SellerformComponent implements OnChanges {
       gender: ['',[Validators.required]]
     })
   }
+
   ngOnChanges(): void {
     if (this.seller.id) {
       this.formGroupSeller.setValue(this.seller);

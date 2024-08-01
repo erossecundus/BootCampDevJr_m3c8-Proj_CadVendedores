@@ -3,13 +3,13 @@
 
   <div class="row">
     <div class="col-md-8 offset-md-2">
-      <form #formSeller="ngForm" id="formSeller">
+      <form [formGroup]="formGroupSeller" #formSeller="ngForm">
 
         <div *ngIf="seller.id" class="row mb-3 mt-3">
           <label for="inputId" class="col-sm-2 col-form-label">Id:</label>
           <div class="col-sm-10">
             <input type="text" class="form-control-plaintext" id="inputId" name="id"
-              [(ngModel)]="seller.id" readonly>
+              formControlName="id" readonly>
           </div>
         </div>
 
@@ -17,20 +17,26 @@
           <label for="inputName" class="col-sm-2 col-form-label">Nome:</label>
           <div class="col-sm-10">
             <input type="text" class="form-control" id="inputName" name="name"
-              [(ngModel)]="seller.name" required>
+              formControlName="name">
+            <div *ngIf="formSeller.submitted">
+              <small *ngIf="sfgName?.errors?.['required']" class="form-text text-danger">*Nome é requerido!</small>
+              <small *ngIf="sfgName?.errors?.['minlength']" class="form-text text-danger">*Nome mínimo 5 caracteres!</small>
+            </div>
           </div>
         </div>
 
         <div class="row mb-3">
-          <label class="col-sm-2 col-form-label">Gênero:</label>
+          <legend class="col-sm-2 col-form-label">Gênero:</legend >
           <div class="col-sm-10">
             <div class="form-check" *ngFor="let g of genders; let i = index">
-              <input type="radio" class="form-check-input" name="genderRadio"
+              <input type="radio" class="form-check-input" name="gender"
                 [id]="'gender'+g"
-                [(ngModel)]="seller.gender"
-                [value]="i+1"
-                [checked]="seller.gender == i" required>
+                formControlName="gender"
+                [value]="i+1">
               <label class="form-check-label" [for]="'gender'+g">{{g}}</label>
+            </div>
+            <div *ngIf="formSeller.submitted">
+              <small *ngIf="sfgGender?.errors?.['required']" class="form-text text-danger">*Escolha uma opção!</small>
             </div>
           </div>
         </div>
@@ -39,21 +45,30 @@
           <label for="inputSalary" class="col-sm-2 col-form-label">Salário:</label>
           <div class="col-sm-5">
             <input type="text" class="form-control" id="inputSalary" name="salary"
-              [(ngModel)]="seller.salary" required>
+              formControlName="salary">
+            <div *ngIf="formSeller.submitted">
+              <small *ngIf="sfgSalary?.errors?.['required']" class="form-text text-danger">*Salário é requerido!</small>
+              <small *ngIf="sfgSalary?.errors?.['min']" class="form-text text-danger">*Salário não pode ser negativo!</small>
+            </div>
           </div>
 
           <label for="inputBonus" class="col-sm-2 col-form-label">Bônus:</label>
           <div class="col-sm-3">
             <input type="text" class="form-control" id="inputBonus" name="bonus"
-              [(ngModel)]="seller.bonus" placeholder="%" required>
+              formControlName="bonus" placeholder="%">
+            <div *ngIf="formSeller.submitted">
+              <small *ngIf="sfgBonus?.errors?.['required']" class="form-text text-danger">*Bônus é requerido!</small>
+              <small *ngIf="sfgBonus?.errors?.['min']" class="form-text text-danger">*Bônus deve ser entre 0 e 100!</small>
+              <small *ngIf="sfgBonus?.errors?.['max']" class="form-text text-danger">*Bônus deve ser entre 0 e 100!</small>
+            </div>
           </div>
         </div>
 
         <div class="row mt-3">
-          <div class="col-sm-4">
-            <button type="submit" class="btn btn-success" [disabled]="formSeller.invalid"
+          <div class="col">
+            <button type="submit" class="btn btn-success me-2"
               (click)="save()">Salvar</button>
-            <button type="button" class="btn btn-outline-danger ms-2"
+            <button type="button" class="btn btn-outline-danger"
               (click)="cancel()">Cancelar</button>
           </div>
         </div>

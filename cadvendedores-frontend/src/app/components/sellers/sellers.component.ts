@@ -1,8 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { Seller } from '../../interfaces/Seller';
-import { SafeCall } from '@angular/compiler';
 import { SellersService } from '../../services/sellers.service';
-import { preventOverflow } from '@popperjs/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -20,7 +18,9 @@ export class SellersComponent {
   deleteSeller: Seller = {} as Seller;
 
   genders: string[] = [];
+
   sellers: Seller[] = [];
+
 
   constructor(private sellerService: SellersService,
     private modalService: NgbModal) { }
@@ -40,9 +40,10 @@ export class SellersComponent {
   }
 
   saveSeller(save: Boolean) {
+    console.log(save, this.isEdit);
     if (save) {
       if (this.isEdit) {
-        this.sellerService.update(this.seller);
+        this.sellerService.update(this.seller).subscribe();
         this.isEdit = false;
       }
       else {

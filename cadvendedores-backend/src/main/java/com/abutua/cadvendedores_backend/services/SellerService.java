@@ -2,12 +2,15 @@ package com.abutua.cadvendedores_backend.services;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.abutua.cadvendedores_backend.dto.SellerRequest;
+import com.abutua.cadvendedores_backend.dto.SellerResponse;
 import com.abutua.cadvendedores_backend.models.Seller;
 import com.abutua.cadvendedores_backend.repositories.SellerRepository;
 
@@ -17,8 +20,11 @@ public class SellerService {
   @Autowired
   private SellerRepository sellerRepository;
 
-  public List<Seller> getAll() {
-    return sellerRepository.findAll();
+  public List<SellerResponse> getAll() {
+    return sellerRepository.findAll()
+                           .stream()
+                           .map(s -> s.toDTO())
+                           .collect(Collectors.toList());
   }
 
   public Seller getById(long id) {
@@ -26,9 +32,17 @@ public class SellerService {
                                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Seller not Found"));
     return seller;
   }
+  
+  public SellerResponse getDTOById(long id) {
+    Seller seller = sellerRepository.findById(id)
+                                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Seller not Found"));
+    return seller.toDTO();
+  }
 
-  public Seller save(Seller seller) {
-    return sellerRepository.save(seller);
+
+  public SellerResponse save(SellerRequest sellerRequest) {
+    Seller seller = sellerRepository.save(sellerRequest.toEntity());
+    return seller.toDTO();
   }
 
   public void deleteById(long id) {
@@ -36,7 +50,7 @@ public class SellerService {
     sellerRepository.delete(seller);
   }
 
-  public void updateById(long id, Seller sellerUpdate) {
+  public void updateById(long id, SellerRequest sellerUpdate) {
     Seller seller = getById(id);
     seller.setName(sellerUpdate.getName());
     seller.setSalary(sellerUpdate.getSalary());
@@ -44,6 +58,5 @@ public class SellerService {
     seller.setGender(sellerUpdate.getGender());
     sellerRepository.save(seller);
   }
-
 
 }

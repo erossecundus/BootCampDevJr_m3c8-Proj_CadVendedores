@@ -3,14 +3,18 @@ package com.abutua.cadvendedores_backend.resources;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.abutua.cadvendedores_backend.models.Seller;
+import com.abutua.cadvendedores_backend.dto.SellerRequest;
+import com.abutua.cadvendedores_backend.dto.SellerResponse;
 import com.abutua.cadvendedores_backend.services.SellerService;
+
+import jakarta.validation.Valid;
 
 import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,25 +34,25 @@ public class SellerController {
   private SellerService sellerService;
 
   @GetMapping
-  public ResponseEntity<List<Seller>> getSellers() {
+  public ResponseEntity<List<SellerResponse>> getSellers() {
     return ResponseEntity.ok(sellerService.getAll());
   }
 
   @GetMapping("{id}")
-  public ResponseEntity<Seller> getSellerById(@PathVariable long id) {
-    Seller seller = sellerService.getById(id);
-    return ResponseEntity.ok(seller);
+  public ResponseEntity<SellerResponse> getSellerById(@PathVariable long id) {
+    SellerResponse sellerResponse = sellerService.getDTOById(id);
+    return ResponseEntity.ok(sellerResponse);
   }
 
   @PostMapping
-  public ResponseEntity<Seller> addSeller(@RequestBody Seller seller) {
-    seller = sellerService.save(seller);
+  public ResponseEntity<SellerResponse> addSeller(@Validated @RequestBody SellerRequest sellerRequest) {
+    SellerResponse sellerResponse = sellerService.save(sellerRequest);
     URI location = ServletUriComponentsBuilder
                     .fromCurrentRequest()
                     .path("/{id}")
-                    .buildAndExpand(seller.getId())
+                    .buildAndExpand(sellerResponse.getId())
                     .toUri();
-    return ResponseEntity.created(location).body(seller);
+    return ResponseEntity.created(location).body(sellerResponse);
   }
 
   @DeleteMapping("{id}")
@@ -58,7 +62,7 @@ public class SellerController {
   }
 
   @PutMapping("{id}")
-  public ResponseEntity<Seller> updateSeller(@PathVariable long id, @RequestBody Seller sellerUpdate) {
+  public ResponseEntity<SellerResponse> updateSeller(@PathVariable long id, @Valid @RequestBody SellerRequest sellerUpdate) {
     sellerService.updateById(id, sellerUpdate);
     return ResponseEntity.ok().build();
   }

@@ -45,6 +45,7 @@
           <label for="inputSalary" class="col-sm-2 col-form-label">Salário:</label>
           <div class="col-sm-5">
             <input type="text" class="form-control" id="inputSalary" name="salary"
+              onkeyup="this.value=this.value.replace(/,/g, '.');"
               formControlName="salary">
             <div *ngIf="formSeller.submitted">
               <small *ngIf="sfgSalary?.errors?.['required']" class="form-text text-danger">*Salário é requerido!</small>
@@ -54,7 +55,8 @@
 
           <label for="inputBonus" class="col-sm-2 col-form-label">Bônus:</label>
           <div class="col-sm-3">
-            <input type="text" class="form-control" id="inputBonus" name="bonus"
+            <input type="text" class="form-control" id="inputBonus" name="bonus" 
+              onkeyup="this.value=this.value.replace(/,/g, '.');"
               formControlName="bonus" placeholder="%">
             <div *ngIf="formSeller.submitted">
               <small *ngIf="sfgBonus?.errors?.['required']" class="form-text text-danger">*Bônus é requerido!</small>
@@ -65,18 +67,20 @@
         </div>
 
         <div class="row mt-3">
-          <div class="col">
-            <button type="submit" class="btn btn-success me-2"
+          <div class="col-sm-6 mx-auto d-grid gap-1 d-md-flex justify-content-md-center">
+            <button type="submit" class="btn btn-success me-md-1"
               (click)="save()">Salvar</button>
             <button type="button" class="btn btn-outline-danger"
               (click)="cancel()">Cancelar</button>
           </div>
         </div>
+        
 
       </form>
+      <hr>
     </div>
   </div>
 
-  <hr>
+
 
 </div>

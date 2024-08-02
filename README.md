@@ -60,8 +60,8 @@ Na listagem, conceitos do Angular como as diretivas, pipes e bidings foram aplic
 No backend, a API web fornece os end-points necessários para tratar o CRUD de vendedores, com arquitetura baseada em REST. O banco de dados utilizado para os testes foi o h2.
 
 ### Imagens da Interface Final
-![Página de Vendedores Cadastrados na horizontal](/UI-Design/VendedoresCadastrados-horizontal.JPG)
+![Página de Vendedores Cadastrados, horizontal](/UI-Design/h-VendedoresCadastrados)
 
-![Página de Cadastro de Vendedores na horizontal](/UI-Design/CadastroDeVendedores-horizontal-editing.JPG)
+![Página de Cadastro de Vendedores, horizontal](/UI-Design/h-CadastroDeVendedores-editing)
 
 As demais imagens da interface podem ser encontradas em [UI-Design](UI-Design).

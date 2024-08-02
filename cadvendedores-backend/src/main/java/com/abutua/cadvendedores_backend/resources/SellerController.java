@@ -40,7 +40,7 @@ public class SellerController {
 
   @GetMapping("{id}")
   public ResponseEntity<SellerResponse> getSellerById(@PathVariable long id) {
-    SellerResponse sellerResponse = sellerService.getDTOById(id);
+    SellerResponse sellerResponse = sellerService.getById(id);
     return ResponseEntity.ok(sellerResponse);
   }
 

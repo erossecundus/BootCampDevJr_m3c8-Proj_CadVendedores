@@ -16,8 +16,8 @@ public class SellerRequest {
   @Min(value = 0, message = "Price min value = 0")
   private double salary;
 
-  @Min(value = 0, message = "Price min value = 0")
-  @Max(value = 100, message = "Price max value = 100")
+  @Min(value = 0, message = "Bonus min value = 0")
+  @Max(value = 100, message = "Bonus max value = 100")
   private double bonus;
 
   @Min(value = 1, message = "Gender min value = 1")

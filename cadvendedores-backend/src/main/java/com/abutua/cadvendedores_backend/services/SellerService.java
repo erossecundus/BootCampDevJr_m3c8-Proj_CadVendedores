@@ -5,14 +5,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.abutua.cadvendedores_backend.dto.SellerRequest;
 import com.abutua.cadvendedores_backend.dto.SellerResponse;
 import com.abutua.cadvendedores_backend.models.Seller;
 import com.abutua.cadvendedores_backend.repositories.SellerRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class SellerService {
@@ -27,18 +27,11 @@ public class SellerService {
                            .collect(Collectors.toList());
   }
 
-  public Seller getById(long id) {
+  public SellerResponse getById(long id) {
     Seller seller = sellerRepository.findById(id)
-                                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Seller not Found"));
-    return seller;
-  }
-  
-  public SellerResponse getDTOById(long id) {
-    Seller seller = sellerRepository.findById(id)
-                                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Seller not Found"));
+                                    .orElseThrow(() -> new EntityNotFoundException("Seller not found"));
     return seller.toDTO();
   }
-
 
   public SellerResponse save(SellerRequest sellerRequest) {
     Seller seller = sellerRepository.save(sellerRequest.toEntity());
@@ -46,17 +39,26 @@ public class SellerService {
   }
 
   public void deleteById(long id) {
-    Seller seller = getById(id);  
-    sellerRepository.delete(seller);
+    if (!sellerRepository.existsById(id)) {
+      throw new EntityNotFoundException("Seller not found");
+    }
+    sellerRepository.deleteById(id);
   }
 
   public void updateById(long id, SellerRequest sellerUpdate) {
-    Seller seller = getById(id);
-    seller.setName(sellerUpdate.getName());
-    seller.setSalary(sellerUpdate.getSalary());
-    seller.setBonus(sellerUpdate.getBonus());
-    seller.setGender(sellerUpdate.getGender());
-    sellerRepository.save(seller);
+
+    try {
+      Seller seller = sellerRepository.getReferenceById(id);
+      
+      seller.setName(sellerUpdate.getName());
+      seller.setSalary(sellerUpdate.getSalary());
+      seller.setBonus(sellerUpdate.getBonus());
+      seller.setGender(sellerUpdate.getGender());
+      sellerRepository.save(seller);
+    } catch (EntityNotFoundException e) {
+      throw new EntityNotFoundException("Seller not found");
+    }
+
   }
 
 }
